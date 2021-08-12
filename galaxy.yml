@@ -1,0 +1,23 @@
+# See https://docs.ansible.com/ansible/latest/dev_guide/collections_galaxy_meta.html
+
+namespace: containernerds
+name: discord
+version: 0.1.0
+readme: README.md
+authors:
+  - Anthony Loukinas (github.com/anthonyloukinas)
+description: Ansible Collection to allow communication to Discord from Ansible. 
+license_file: LICENSE
+tags:
+# tags so people can search for collections https://galaxy.ansible.com/search
+# tags are all lower-case, no spaces, no dashes.
+  - discord
+  - notifications
+repository: https://github.com/ContainerNerds/containernerds.discord
+#documentation: https://github.com/ansible-collection-migration/community.REPO_NAME/tree/main/docs
+homepage: https://github.com/ContainerNerds/containernerds.discord
+issues: https://github.com/ContainerNerds/containernerds.discord/issues
+build_ignore:
+# https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#ignoring-files-and-folders
+  - .gitignore
+  - changelogs/.plugin-cache.yaml
