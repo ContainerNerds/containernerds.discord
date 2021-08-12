@@ -2,7 +2,7 @@
 
 namespace: containernerds
 name: discord
-version: 0.1.0
+version: 0.1.1
 readme: README.md
 authors:
   - Anthony Loukinas (github.com/anthonyloukinas)
