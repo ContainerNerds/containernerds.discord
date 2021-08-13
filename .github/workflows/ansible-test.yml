@@ -184,6 +184,14 @@ jobs:
         # NOTE: we're installing with git to work around Galaxy being a huge PITA (https://github.com/ansible/galaxy/issues/2429)
         # run: ansible-galaxy collection install community.general -p .
 
+      # https://docs.github.com/en/actions/reference/encrypted-secrets
+      # This seems to be the only way to get Secrets to ansible-test
+      - name: create integration_config.yml and pipe in webhook secrete
+        env:
+          WEBHOOK: ${{ secrets.WEBHOOK }}
+        run: |
+          echo "webhook: $WEBHOOK" > ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration/integration_config.yml
+
       # Run the integration tests
       - name: Run integration test
         run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
@@ -198,3 +206,7 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           fail_ci_if_error: false
+          
+      - name: remove integration_config.yml
+        run: |
+          rm ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration/integration_config.yml
