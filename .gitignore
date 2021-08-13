@@ -1,2 +1,3 @@
 playbook_test.yml
 vault-password
+tests/integration/integration_config.yml
