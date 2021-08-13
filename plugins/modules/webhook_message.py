@@ -17,11 +17,13 @@ author: "Anthony Loukinas (@anthonyloukinas)"
 options:
   webhook:
     type: str
+    required: true
     description:
       - Discord webook url. This authenticates you to the discord service.
         Make sure to use keep this private.
   msg:
     type: str
+    required: true
     description:
       - Message to send. Note that the module does not handle escaping characters.
         Plain-text angle brackets and ampersands should be converted to HTML entities (e.g. & to &amp;) before sending.
@@ -38,16 +40,24 @@ options:
 """
 
 EXAMPLES = """
-- name: Send notification message via Slack
+- name: Send notification message via Discord
   containernerds.discord.webhook_message:
-    token: thetoken/generatedby/slack
-    msg: '{{ inventory_hostname }} completed'
+    webhook: Discord/Webhook/Link
+    msg: 'This is a test'
   delegate_to: localhost
 """
+import traceback
 
-import re
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.urls import fetch_url
+try:
+    import re
+    from ansible.module_utils.basic import AnsibleModule
+    from ansible.module_utils.urls import fetch_url
+except ImportError:
+    HAS_ANOTHER_LIBRARY = False
+    ANOTHER_LIBRARY_IMPORT_ERROR = traceback.format_exc()
+else:
+    HAS_ANOTHER_LIBRARY = True
+
 
 def build_payload_for_discord(module, msg, username, avatar_url):
     payload = {}
@@ -58,7 +68,7 @@ def build_payload_for_discord(module, msg, username, avatar_url):
         payload['username'] = username
     if avatar_url is not None:
         payload['avatar_url'] = avatar_url
-    
+
     return payload
 
 
@@ -75,19 +85,22 @@ def do_notify_discord(module, webhook, payload):
     if info['status'] != 204:
         module.fail_json(msg=" failed to send message", status=info['status'])
 
-    return {'webhook', 'ok'}
+    return(['webhook', 'ok'])
 
 
 def main():
     module = AnsibleModule(
         argument_spec=dict(
             webhook=dict(type='str', required=True, no_log=True),
-            msg=dict(type='str', required=True, default=None),
+            msg=dict(type='str', required=True),
             username=dict(type='str', required=False, default="Ansible"),
             avatar_url=dict(type='str', required=False, default="https://www.ansible.com/favicon.ico")
         ),
         supports_check_mode=True,
     )
+
+    if not HAS_ANOTHER_LIBRARY:
+        module.fail_json(msg="missing lib", exception=ANOTHER_LIBRARY_IMPORT_ERROR)
 
     webhook = module.params['webhook']
     msg = module.params['msg']
