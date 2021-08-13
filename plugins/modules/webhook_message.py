@@ -46,10 +46,17 @@ EXAMPLES = """
     msg: '{{ inventory_hostname }} completed'
   delegate_to: localhost
 """
+import traceback
 
-import re
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.urls import fetch_url
+try:
+    import re
+    from ansible.module_utils.basic import AnsibleModule
+    from ansible.module_utils.urls import fetch_url
+except ImportError:
+    HAS_ANOTHER_LIBRARY = False
+    ANOTHER_LIBRARY_IMPORT_ERROR = traceback.format_exc()
+else:
+    HAS_ANOTHER_LIBRARY = True
 
 
 def build_payload_for_discord(module, msg, username, avatar_url):
@@ -78,7 +85,7 @@ def do_notify_discord(module, webhook, payload):
     if info['status'] != 204:
         module.fail_json(msg=" failed to send message", status=info['status'])
 
-    return {'webhook', 'ok'}
+    return(['webhook', 'ok'])
 
 
 def main():
@@ -91,6 +98,9 @@ def main():
         ),
         supports_check_mode=True,
     )
+
+    if not HAS_ANOTHER_LIBRARY:
+        module.fail_json(msg="missing lib", exception=ANOTHER_LIBRARY_IMPORT_ERROR)
 
     webhook = module.params['webhook']
     msg = module.params['msg']
