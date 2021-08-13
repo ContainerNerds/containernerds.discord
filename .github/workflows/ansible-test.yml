@@ -186,7 +186,7 @@ jobs:
 
       # https://docs.github.com/en/actions/reference/encrypted-secrets
       # This seems to be the only way to get Secrets to ansible-test
-      - name: create integration_config.yml and pipe in webhook secrete
+      - name: Create integration_config.yml and pipe in webhook secret
         env:
           WEBHOOK: ${{ secrets.WEBHOOK }}
         run: |
@@ -207,6 +207,6 @@ jobs:
         with:
           fail_ci_if_error: false
           
-      - name: remove integration_config.yml
+      - name: Remove integration_config.yml
         run: |
           rm ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration/integration_config.yml
