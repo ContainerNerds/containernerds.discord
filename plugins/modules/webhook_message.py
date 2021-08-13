@@ -17,11 +17,13 @@ author: "Anthony Loukinas (@anthonyloukinas)"
 options:
   webhook:
     type: str
+    required: true
     description:
       - Discord webook url. This authenticates you to the discord service.
         Make sure to use keep this private.
   msg:
     type: str
+    required: true
     description:
       - Message to send. Note that the module does not handle escaping characters.
         Plain-text angle brackets and ampersands should be converted to HTML entities (e.g. & to &amp;) before sending.
@@ -49,6 +51,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.urls import fetch_url
 
+
 def build_payload_for_discord(module, msg, username, avatar_url):
     payload = {}
 
@@ -58,7 +61,7 @@ def build_payload_for_discord(module, msg, username, avatar_url):
         payload['username'] = username
     if avatar_url is not None:
         payload['avatar_url'] = avatar_url
-    
+
     return payload
 
 
@@ -82,7 +85,7 @@ def main():
     module = AnsibleModule(
         argument_spec=dict(
             webhook=dict(type='str', required=True, no_log=True),
-            msg=dict(type='str', required=True, default=None),
+            msg=dict(type='str', required=True),
             username=dict(type='str', required=False, default="Ansible"),
             avatar_url=dict(type='str', required=False, default="https://www.ansible.com/favicon.ico")
         ),
