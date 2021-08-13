@@ -40,10 +40,10 @@ options:
 """
 
 EXAMPLES = """
-- name: Send notification message via Slack
+- name: Send notification message via Discord
   containernerds.discord.webhook_message:
-    token: thetoken/generatedby/slack
-    msg: '{{ inventory_hostname }} completed'
+    webhook: Discord/Webhook/Link
+    msg: 'This is a test'
   delegate_to: localhost
 """
 import traceback
