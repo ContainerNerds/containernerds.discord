@@ -190,7 +190,7 @@ jobs:
         env:
           WEBHOOK: ${{ secrets.WEBHOOK }}
         run: |
-          echo "webhook: $WEBHOOK" > ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/test/integration/integration_config.yml
+          echo "webhook: $WEBHOOK" > ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration/integration_config.yml
 
       # Run the integration tests
       - name: Run integration test
@@ -209,4 +209,4 @@ jobs:
           
       - name: remove integration_config.yml
         run: |
-          rm ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/test/integration/integration_config.yml
+          rm ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration/integration_config.yml
