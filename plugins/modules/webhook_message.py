@@ -29,6 +29,7 @@ options:
         Plain-text angle brackets and ampersands should be converted to HTML entities (e.g. & to &amp;) before sending.
   embeds:
     type: list
+    elements: dict
     required: false
     description:
       - Rich Embed message.
@@ -104,7 +105,7 @@ def main():
             msg=dict(type='str', required=True),
             username=dict(type='str', required=False, default="Ansible"),
             avatar_url=dict(type='str', required=False, default="https://www.ansible.com/favicon.ico"),
-            embeds=dict(type='list', required=False)
+            embeds=dict(type='list', required=False, elements='dict')
         ),
         supports_check_mode=True,
     )
