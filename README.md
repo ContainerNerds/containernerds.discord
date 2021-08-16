@@ -1,5 +1,8 @@
 # containernerds.discord
+[![CI](https://github.com/ContainerNerds/containernerds.discord/actions/workflows/ansible-test.yml/badge.svg?branch=main)](https://github.com/ContainerNerds/containernerds.discord/actions/workflows/ansible-test.yml)
 Ansible Collection to allow communication to Discord from Ansible.
+
+
 
 # Usage
 ```yml
