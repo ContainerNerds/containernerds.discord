@@ -59,7 +59,7 @@ else:
     HAS_ANOTHER_LIBRARY = True
 
 
-def build_payload_for_discord(module, msg, username, avatar_url):
+def build_payload_for_discord(module, msg, username, avatar_url, embeds=None):
     payload = {}
 
     if msg is not None:
@@ -68,6 +68,8 @@ def build_payload_for_discord(module, msg, username, avatar_url):
         payload['username'] = username
     if avatar_url is not None:
         payload['avatar_url'] = avatar_url
+    if embeds:
+        payload['embeds'] = embeds
 
     return payload
 
@@ -94,7 +96,8 @@ def main():
             webhook=dict(type='str', required=True, no_log=True),
             msg=dict(type='str', required=True),
             username=dict(type='str', required=False, default="Ansible"),
-            avatar_url=dict(type='str', required=False, default="https://www.ansible.com/favicon.ico")
+            avatar_url=dict(type='str', required=False, default="https://www.ansible.com/favicon.ico"),
+            embeds=dict(type='list', required=False)
         ),
         supports_check_mode=True,
     )
@@ -106,10 +109,11 @@ def main():
     msg = module.params['msg']
     username = module.params['username']
     avatar_url = module.params['avatar_url']
+    embeds = module.params['embeds']
 
     changed = True
 
-    payload = build_payload_for_discord(module, msg, username, avatar_url)
+    payload = build_payload_for_discord(module, msg, username, avatar_url, embeds)
     discord_response = do_notify_discord(module, webhook, payload)
 
     module.exit_json(msg="OK", changed=changed)
