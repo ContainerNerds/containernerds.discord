@@ -27,6 +27,13 @@ options:
     description:
       - Message to send. Note that the module does not handle escaping characters.
         Plain-text angle brackets and ampersands should be converted to HTML entities (e.g. & to &amp;) before sending.
+  embeds:
+    type: list
+    required: false
+    description:
+      - Rich Embed message.
+        Embed objects can be found here https://discord.com/developers/docs/resources/channel#embed-object
+        Expecting list of dictonaries as shown https://github.com/ContainerNerds/containernerds.discord#with-embed
   username:
     type: str
     description:
