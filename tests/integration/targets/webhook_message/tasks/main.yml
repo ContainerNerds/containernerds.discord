@@ -1,6 +1,6 @@
 ---
-#    - name: send msg
-#      containernerds.discord.webhook_message:
-#        msg: "Intergration Test"
-#        webhook: "{{ webhook }}"
-#      delegate_to: localhost
+ - name: send msg
+   containernerds.discord.webhook_message:
+     msg: "containernerds.discord Automated Integration Test\n\nPython {{ ansible_python_version }}\nAnsible {{ ansible_version.full }}"
+     webhook: "{{ webhook }}"
+   delegate_to: localhost
