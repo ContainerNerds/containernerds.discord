@@ -4,6 +4,8 @@
 
 Ansible Collection to allow communication to Discord from Ansible.
 
+# Installation
+`ansible-galaxy collection install containernerds.discord`
 
 
 # Usage
